@@ -44,3 +44,10 @@
 .App-nav-item.selected {
   border-bottom-color: #FFAA3F;
 }
+
+.App-nav-summary {
+  list-style: none;
+  display: inline-block;
+  float: right;
+  padding-top: 20px;
+}

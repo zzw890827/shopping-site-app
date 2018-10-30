@@ -1,0 +1,13 @@
+.summary {
+  background-color: #FFFFFF;
+  border: none;
+  cursor: pointer;
+}
+
+.summary:focus{
+  outline: none;
+}
+
+.summary:hover {
+  color: #999999;
+}

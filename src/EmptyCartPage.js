@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import './EmptyCartPage.css';
 
 const EmptyCartPage = ()=>(
   <div className="emptyCartPage-content">

@@ -1,0 +1,9 @@
+.emptyCartPage-content {
+  padding-top: 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.emptyCartPage-content h2, h3 {
+  align-self: center;
+}

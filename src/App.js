@@ -34,24 +34,27 @@ class App extends Component {
     })
   };
 
-  renderContext() {
+  renderContext(itemList) {
     switch (this.state.activeTab) {
       default:
       case 0:
         return <ItemPage items={items} onAddToCart={this.handleAddToCart}/>;
       case 1:
-        return this.renderCart();
+        return <CartPage items={itemList}
+                         onAddOne={this.handleAddToCart}
+                         onRemoveOne={this.handleRemoveOne}/>
     }
   };
 
-  renderCart() {
+  mkCartItemSnapshot() {
+    let snapShot = {};
     let itemCounts = this.state.cart.reduce((itemCounts, itemId) => {
       itemCounts[itemId] = itemCounts[itemId] || 0;
       itemCounts[itemId]++;
       return itemCounts;
     }, {});
 
-    let cartItems = Object.keys(itemCounts).map(itemId => {
+    snapShot.itemList = Object.keys(itemCounts).map(itemId => {
       var item = items.find(item => item.id === parseInt(itemId, 10));
       return {
         ...item,
@@ -59,20 +62,29 @@ class App extends Component {
       }
     });
 
-    return (
-      <CartPage items={cartItems}
-                onAddOne={this.handleAddToCart}
-                onRemoveOne={this.handleRemoveOne}/>
-    );
+    snapShot.totalPrice = snapShot.itemList.reduce((sum, item) => {
+      return sum + item.price * item.count;
+    }, 0).toFixed(2);
+
+    snapShot.quantity = snapShot.itemList.reduce((sum, item) => {
+      return sum + item.count
+    }, 0);
+
+    return snapShot;
   }
 
   render() {
     let {activeTab} = this.state;
+    let {itemList, totalPrice, quantity} = this.mkCartItemSnapshot();
+    console.log(totalPrice, quantity);
     return (
       <div className="App">
-        <Nav activeTab={activeTab} onTabChange={this.handleTabChange}/>
+        <Nav activeTab={activeTab}
+             onTabChange={this.handleTabChange}
+             quantity={quantity}
+             price={totalPrice}/>
         <main className="App-content">
-          {this.renderContext()}
+          {this.renderContext(itemList)}
         </main>
       </div>
     )
